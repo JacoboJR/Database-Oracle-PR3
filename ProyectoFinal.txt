@@ -1,0 +1,4038 @@
+CREATE TABLE almacen (
+    cve_almacen         NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX almacen__idx ON
+    almacen (
+        cve_almacen
+    ASC )
+        TABLESPACE indx LOGGING;
+        
+ALTER TABLE almacen ADD CONSTRAINT almacen_ck CHECK ( cve_almacen > 0 );
+ALTER TABLE almacen ADD CONSTRAINT pk_almacen PRIMARY KEY ( cve_almacen );
+
+CREATE TABLE ayudante (
+    cve_ayudante        NUMBER NOT NULL,
+    turno               VARCHAR2(15) NOT NULL,
+    correo              VARCHAR2(100),
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX ayudante__idx ON
+    ayudante (
+        cve_ayudante
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE ayudante ADD CONSTRAINT ayudante_ck CHECK ( cve_ayudante > 0 );
+ALTER TABLE ayudante ADD CONSTRAINT pk_ayudante PRIMARY KEY ( cve_ayudante );
+
+CREATE TABLE ayudante_pagos (
+    cve_ayudante   NUMBER NOT NULL,
+    cve_pago       NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX ayudante_pagos__idx ON
+    ayudante_pagos (
+        cve_ayudante
+    ASC,
+        cve_pago
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE ayudante_pagos ADD CONSTRAINT ayudante_pagos_ck CHECK ( cve_ayudante > 0 );
+ALTER TABLE ayudante_pagos ADD CONSTRAINT ayudante__cv_pagos_ck CHECK ( cve_pago > 0 );
+ALTER TABLE ayudante_pagos ADD CONSTRAINT pk_ayudante_pagos PRIMARY KEY ( cve_ayudante,
+                                                                          cve_pago );
+CREATE TABLE colonia (
+    cve_colonia     NUMBER NOT NULL,
+    cve_municipio   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+ALTER TABLE COLONIA ADD descp VARCHAR2(50) NOT NULL;
+CREATE UNIQUE INDEX colonia__idx ON
+    colonia (
+        cve_colonia
+    ASC )
+        TABLESPACE indx LOGGING;
+        
+ALTER TABLE colonia ADD CONSTRAINT colonia_ck CHECK ( cve_colonia > 0 );        
+ALTER TABLE colonia ADD CONSTRAINT pk_colonia PRIMARY KEY ( cve_colonia );
+
+CREATE TABLE consultorio_dental (
+    cve_consul_dental   NUMBER NOT NULL,
+    "desc"              VARCHAR2(100) NOT NULL,
+    nombre_res          NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX consultorio_dental__idx ON
+    consultorio_dental (
+        cve_consul_dental
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE consultorio_dental ADD CONSTRAINT consultorio_dental_ck CHECK ( cve_consul_dental > 0 );   
+ALTER TABLE consultorio_dental ADD CONSTRAINT "PK_Consultorio dental" PRIMARY KEY ( cve_consul_dental );
+
+CREATE TABLE deducciones (
+    cve_deducciones   NUMBER NOT NULL,
+    cve_pago          NUMBER NOT NULL,
+    cve_tipo_deduc    NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX deducciones__idx ON
+    deducciones (
+        cve_deducciones
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE deducciones ADD CONSTRAINT deducciones_ck CHECK ( cve_deducciones > 0 ); 
+ALTER TABLE deducciones ADD CONSTRAINT pk_deducciones PRIMARY KEY ( cve_deducciones );
+
+CREATE TABLE deposito_dental (
+    cve_deposito_dental NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX deposito_dental__idx ON
+    deposito_dental (
+        cve_deposito_dental
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE deposito_dental ADD CONSTRAINT deposito_dental_ck CHECK ( cve_deposito_dental > 0 );
+ALTER TABLE deposito_dental ADD CONSTRAINT pk_deposito_dental PRIMARY KEY ( cve_deposito_dental );
+
+CREATE TABLE doctor (
+    cve_doctor          NUMBER NOT NULL,
+    correo              VARCHAR2(100) NOT NULL,
+    turno               VARCHAR2(15) NOT NULL,
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX doctor__idx ON
+    doctor (
+        cve_doctor
+    ASC )
+        TABLESPACE indx LOGGING;
+        
+ALTER TABLE doctor ADD CONSTRAINT doctor_ck CHECK ( cve_doctor > 0 );
+ALTER TABLE doctor ADD CONSTRAINT pk_doctor PRIMARY KEY ( cve_doctor );
+
+CREATE TABLE doctor_pagos (
+    cve_doctor   NUMBER NOT NULL,
+    cve_pago     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX doctor_pagos__idx ON
+    doctor_pagos (
+        cve_doctor
+    ASC,
+        cve_pago
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE doctor_pagos ADD CONSTRAINT doctor_pagos_ck CHECK ( cve_doctor > 0 );
+ALTER TABLE doctor_pagos ADD CONSTRAINT doctor__cv_pagos_ck CHECK ( cve_pago > 0 );
+ALTER TABLE doctor_pagos ADD CONSTRAINT pk_doctor_pagos PRIMARY KEY ( cve_doctor,
+                                                                      cve_pago );
+
+CREATE TABLE domicilio (
+    cve_domicilio   NUMBER NOT NULL,
+    cve_colonia     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+ALTER TABLE DOMICILIO ADD descp VARCHAR2(50) NOT NULL;
+CREATE UNIQUE INDEX domicilio__idx ON
+    domicilio (
+        cve_domicilio
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE domicilio ADD CONSTRAINT domicilio_ck CHECK ( cve_domicilio > 0 );
+ALTER TABLE domicilio ADD CONSTRAINT pk_domicilio PRIMARY KEY ( cve_domicilio );
+
+CREATE TABLE estado (
+    cve_estado   NUMBER NOT NULL,
+    cve_pais     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+ALTER TABLE ESTADO ADD descp VARCHAR2(50) NOT NULL;
+CREATE UNIQUE INDEX estado__idx ON
+    estado (
+        cve_estado
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE estado ADD CONSTRAINT estado_ck CHECK ( cve_estado > 0 );
+ALTER TABLE estado ADD CONSTRAINT pk_estado PRIMARY KEY ( cve_estado );
+
+CREATE TABLE estudio (
+    cve_estudio   NUMBER NOT NULL,
+    "desc"        VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX estudio__idx ON
+    estudio (
+        cve_estudio
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE estudio ADD CONSTRAINT estudio_ck CHECK ( cve_estudio > 0 );
+ALTER TABLE estudio ADD CONSTRAINT pk_estudios PRIMARY KEY ( cve_estudio );
+
+CREATE TABLE factura (
+    cve_factura         NUMBER NOT NULL,
+    fecha               DATE NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    cve_paciente        NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX factura__idx ON
+    factura (
+        cve_factura
+    ASC )
+        TABLESPACE indx LOGGING;
+
+CREATE INDEX factura__idxv1 ON
+    factura (
+        fecha
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE factura ADD CONSTRAINT factura_ck CHECK ( cve_factura > 0 );
+ALTER TABLE factura ADD CONSTRAINT pk_factura PRIMARY KEY ( cve_factura );
+
+CREATE TABLE historia_clinica (
+    cve_historia_clinica   NUMBER NOT NULL,
+    padecimiento           VARCHAR2(100) NOT NULL,
+    fecha                  DATE NOT NULL,
+    cve_paciente           NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX historia_clinica__idx ON
+    historia_clinica (
+        cve_historia_clinica
+    ASC )
+        TABLESPACE indx LOGGING;
+
+CREATE INDEX historia_clinica__idxv1 ON
+    historia_clinica (
+        fecha
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE historia_clinica ADD CONSTRAINT historia_clinica_ck CHECK ( cve_historia_clinica> 0 );
+ALTER TABLE historia_clinica ADD CONSTRAINT pk_historia_clinica PRIMARY KEY ( cve_historia_clinica );
+
+CREATE TABLE horario (
+    cve_horario         NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX horario__idx ON
+    horario (
+        cve_horario
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE horario ADD CONSTRAINT horario_ck CHECK ( cve_horario> 0 );
+ALTER TABLE horario ADD CONSTRAINT pk_horario PRIMARY KEY ( cve_horario );
+
+CREATE TABLE inventario (
+    cve_inventario        NUMBER NOT NULL,
+    cantidad              NUMBER NOT NULL,
+    cve_almacen           NUMBER NOT NULL,
+    cve_material          NUMBER NOT NULL,
+    cve_consul_dental     NUMBER NOT NULL,
+    cve_deposito_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX inventario__idx ON
+    inventario (
+        cve_inventario
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE inventario ADD CONSTRAINT inventario_ck CHECK ( cve_inventario > 0 );
+ALTER TABLE inventario ADD CONSTRAINT pk_inventario PRIMARY KEY ( cve_inventario );
+
+CREATE TABLE material (
+    cve_material   NUMBER NOT NULL,
+    "desc"         VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX material__idx ON
+    material (
+        cve_material
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE material ADD CONSTRAINT material_ck CHECK ( cve_material > 0 );
+ALTER TABLE material ADD CONSTRAINT pk_material PRIMARY KEY ( cve_material );
+
+CREATE TABLE municipio (
+    cve_municipio   NUMBER NOT NULL,
+    cve_estado      NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+ALTER TABLE MUNICIPIO ADD descp VARCHAR2(50) NOT NULL;
+CREATE UNIQUE INDEX municipio__idx ON
+    municipio (
+        cve_municipio
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE municipio ADD CONSTRAINT municipio_ck CHECK ( cve_municipio > 0 );
+ALTER TABLE municipio ADD CONSTRAINT pk_municipio PRIMARY KEY ( cve_municipio );
+
+CREATE TABLE nomina (
+    cve_nomina          NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX nomina__idx ON
+    nomina (
+        cve_nomina
+    ASC,
+        cve_consul_dental
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE nomina ADD CONSTRAINT nomina CHECK ( cve_nomina > 0 );
+ALTER TABLE nomina ADD CONSTRAINT pk_nomina PRIMARY KEY ( cve_nomina );
+
+CREATE TABLE paciente (
+    cve_paciente        NUMBER NOT NULL,
+    correo              VARCHAR2(100),
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    cve_sala_espera     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE INDEX paciente__idx ON
+    paciente (
+        cve_paciente
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE paciente ADD CONSTRAINT paciente CHECK ( cve_paciente > 0 );
+ALTER TABLE paciente ADD CONSTRAINT pk_paciente PRIMARY KEY ( cve_paciente );
+
+CREATE TABLE paciente_estudio (
+    cve_paciente           NUMBER NOT NULL,
+    cve_estudio            NUMBER NOT NULL,
+    cve_historia_clinica   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX paciente_estudio__idx ON
+    paciente_estudio (
+        cve_paciente
+    ASC,
+        cve_estudio
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE paciente_estudio ADD CONSTRAINT paciente_estudio_ck CHECK ( cve_paciente > 0 );
+ALTER TABLE paciente_estudio ADD CONSTRAINT paciente__cv_estudio_ck CHECK ( cve_estudio > 0 );
+ALTER TABLE paciente_estudio ADD CONSTRAINT pk_paciente_estudio PRIMARY KEY ( cve_paciente,
+                                                                              cve_estudio );
+
+CREATE TABLE paciente_tratamiento (
+    cve_paciente           NUMBER NOT NULL,
+    cve_tratamiento        NUMBER NOT NULL,
+    cve_historia_clinica   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX paciente_tratamiento__idx ON
+    paciente_tratamiento (
+        cve_paciente
+    ASC,
+        cve_tratamiento
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE paciente_tratamiento ADD CONSTRAINT paciente_tratamiento_ck CHECK ( cve_paciente > 0 );
+ALTER TABLE paciente_tratamiento ADD CONSTRAINT paciente__cv_tratamiento_ck CHECK ( cve_tratamiento > 0 );
+ALTER TABLE paciente_tratamiento ADD CONSTRAINT pk_paciente_tratamiento PRIMARY KEY ( cve_paciente,
+                                                                                      cve_tratamiento );
+
+CREATE TABLE pagos (
+    cve_pago       NUMBER NOT NULL,
+    monto_total    FLOAT NOT NULL,
+    cve_quincena   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX pagos__idx ON
+    pagos (
+        cve_pago
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE pagos ADD CONSTRAINT pagos_ck CHECK ( cve_pago > 0 );
+ALTER TABLE pagos ADD CONSTRAINT pk_pagos PRIMARY KEY ( cve_pago );
+
+CREATE TABLE pais (
+    cve_pais   NUMBER NOT NULL,
+    "desc"     VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX pais__idx ON
+    pais (
+        cve_pais
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE pais ADD CONSTRAINT pais_ck CHECK ( cve_pais > 0 );
+ALTER TABLE pais ADD CONSTRAINT pk_pais PRIMARY KEY ( cve_pais );
+
+CREATE TABLE pedidos (
+    cve_pedidos           NUMBER NOT NULL,
+    cve_consul_dental     NUMBER NOT NULL,
+    cve_deposito_dental   NUMBER NOT NULL,
+    fecha                 DATE NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX pedidos__idx ON
+    pedidos (
+        cve_pedidos
+    ASC )
+        TABLESPACE indx LOGGING;
+
+CREATE INDEX pedidos__idxv1 ON
+    pedidos (
+        fecha
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE pedidos ADD CONSTRAINT pedidos CHECK ( cve_pedidos > 0 );
+ALTER TABLE pedidos ADD CONSTRAINT pk_pedidos PRIMARY KEY ( cve_pedidos );
+
+CREATE TABLE percepciones (
+    cve_percepciones   NUMBER NOT NULL,
+    monto              NUMBER NOT NULL,
+    cve_pago           NUMBER NOT NULL,
+    cve_tipo_percep    NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX percepciones__idx ON
+    percepciones (
+        cve_percepciones
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE percepciones ADD CONSTRAINT percepciones_ck CHECK ( cve_percepciones > 0 );
+ALTER TABLE percepciones ADD CONSTRAINT pk_percepciones PRIMARY KEY ( cve_percepciones );
+
+CREATE TABLE persona (
+    cve_persona   NUMBER NOT NULL,
+    nombre        VARCHAR2(50) NOT NULL,
+    a_paterno     VARCHAR2(50) NOT NULL,
+    a_materno     VARCHAR2(50) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX persona__idx ON
+    persona (
+        cve_persona
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE persona ADD CONSTRAINT persona_ck CHECK ( cve_persona > 0 );
+ALTER TABLE persona ADD CONSTRAINT pk_persona PRIMARY KEY ( cve_persona );
+
+CREATE TABLE precios (
+    cve_precios       NUMBER NOT NULL,
+    monto             NUMBER NOT NULL,
+    cve_tratamiento   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX precios__idx ON
+    precios (
+        cve_precios
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE precios ADD CONSTRAINT precios_ck CHECK ( cve_precios > 0 );
+ALTER TABLE precios ADD CONSTRAINT pk_precios PRIMARY KEY ( cve_precios );
+
+CREATE TABLE quincena (
+    cve_quincena   NUMBER NOT NULL,
+    fecha_ini      DATE NOT NULL,
+    fecha_fin      DATE NOT NULL,
+    cve_nomina     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX quincena__idx ON
+    quincena (
+        cve_quincena
+    ASC )
+        TABLESPACE indx LOGGING;
+
+CREATE INDEX quincena__idxv1 ON
+    quincena (
+        fecha_ini
+    ASC,
+        fecha_fin
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE quincena ADD CONSTRAINT quincena_ck CHECK ( cve_quincena > 0 );
+ALTER TABLE quincena ADD CONSTRAINT pk_quincena PRIMARY KEY ( cve_quincena );
+
+
+CREATE TABLE recepcionista (
+    cve_recep         NUMBER NOT NULL,
+    turno             VARCHAR2(15) NOT NULL,
+    correo            VARCHAR2(100),
+    cve_persona       NUMBER NOT NULL,
+    cve_domicilio     NUMBER NOT NULL,
+    cve_sala_espera   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE INDEX recepcionista__idx ON
+    recepcionista (
+        cve_recep
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE recepcionista ADD CONSTRAINT pk_recep_ck CHECK ( cve_recep > 0 );
+ALTER TABLE recepcionista ADD CONSTRAINT pk_recep PRIMARY KEY ( cve_recep );
+
+
+CREATE TABLE recepcionista_pagos (
+    cve_recep   NUMBER NOT NULL,
+    cve_pago            NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX recep_pagos__idx ON
+    recepcionista_pagos (
+        cve_pago
+    ASC,
+        cve_recep
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE recepcionista_pagos ADD CONSTRAINT recepcionista_pagos_ck CHECK ( cve_pago > 0 );
+ALTER TABLE recepcionista_pagos ADD CONSTRAINT recepcionista__cv_pagos_ck CHECK ( cve_recep > 0 );
+ALTER TABLE recepcionista_pagos ADD CONSTRAINT pk_recepcionista_pagos PRIMARY KEY ( cve_pago,
+                                                                                    cve_recep );
+
+
+CREATE TABLE sala_espera (
+    cve_sala_espera     NUMBER NOT NULL,
+    turno               INTEGER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX sala_de_espera__idx ON
+    sala_espera (
+        cve_sala_espera
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE sala_espera ADD CONSTRAINT sala_espera_ck CHECK ( cve_sala_espera > 0 );
+ALTER TABLE sala_espera ADD CONSTRAINT pk_sala_espera PRIMARY KEY ( cve_sala_espera );
+
+CREATE TABLE telefono (
+    cve_telefono        NUMBER NOT NULL,
+    lada                VARCHAR2(4) NOT NULL,
+    telefono            VARCHAR2(10) NOT NULL,
+    cve_doctor          NUMBER NOT NULL,
+    cve_paciente        NUMBER NOT NULL,
+    cve_ayudante        NUMBER NOT NULL,
+    cve_recep   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX telefono__idx ON
+    telefono (
+        cve_telefono
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE telefono ADD CONSTRAINT telefono_ck CHECK ( cve_telefono > 0 );
+ALTER TABLE telefono ADD CONSTRAINT pk_telefono PRIMARY KEY ( cve_telefono );
+
+CREATE TABLE tipo_deduc (
+    cve_tipo_deduc   NUMBER NOT NULL,
+    "desc"           VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tipo_deduc__idx ON
+    tipo_deduc (
+        cve_tipo_deduc
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tipo_deduc ADD CONSTRAINT tipo_deduc_ck CHECK ( cve_tipo_deduc > 0 );
+ALTER TABLE tipo_deduc ADD CONSTRAINT pk_tipo_deduc PRIMARY KEY ( cve_tipo_deduc );
+
+CREATE TABLE tipo_percep (
+    cve_tipo_percep   NUMBER NOT NULL,
+    "desc"            VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tipo_percep__idx ON
+    tipo_percep (
+        cve_tipo_percep
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tipo_percep ADD CONSTRAINT tipo_percep_ck CHECK ( cve_tipo_percep > 0 );
+ALTER TABLE tipo_percep ADD CONSTRAINT pk_tipo_percep PRIMARY KEY ( cve_tipo_percep );
+
+CREATE TABLE tratamiento (
+    cve_tratamiento     NUMBER NOT NULL,
+    tipo                VARCHAR2(100) NOT NULL,
+    fecha               DATE NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tratamiento__idx ON
+    tratamiento (
+        cve_tratamiento
+    ASC )
+        TABLESPACE indx LOGGING;
+
+CREATE INDEX tratamiento__idxv1 ON
+    tratamiento (
+        fecha
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tratamiento ADD CONSTRAINT tratamiento_ck CHECK ( cve_tratamiento > 0 );
+ALTER TABLE tratamiento ADD CONSTRAINT pk_tratamiento PRIMARY KEY ( cve_tratamiento );
+
+ALTER TABLE inventario
+    ADD CONSTRAINT fk_almacen_inventario FOREIGN KEY ( cve_almacen )
+        REFERENCES almacen ( cve_almacen )
+    NOT DEFERRABLE;
+
+ALTER TABLE ayudante_pagos
+    ADD CONSTRAINT fk_ayudante_ayudante_pagos FOREIGN KEY ( cve_ayudante )
+        REFERENCES ayudante ( cve_ayudante )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefono
+    ADD CONSTRAINT fk_ayudante_telefono FOREIGN KEY ( cve_ayudante )
+        REFERENCES ayudante ( cve_ayudante )
+    NOT DEFERRABLE;
+
+ALTER TABLE domicilio
+    ADD CONSTRAINT fk_colonia_domicilio FOREIGN KEY ( cve_colonia )
+        REFERENCES colonia ( cve_colonia )
+    NOT DEFERRABLE;
+
+ALTER TABLE almacen
+    ADD CONSTRAINT fk_consultorio_dental_almacen FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE ayudante
+    ADD CONSTRAINT fk_consultorio_dental_ayudante FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE doctor
+    ADD CONSTRAINT fk_consultorio_dental_doctor FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura
+    ADD CONSTRAINT fk_consultorio_dental_fact FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE horario
+    ADD CONSTRAINT fk_consultorio_dental_horario FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE inventario
+    ADD CONSTRAINT fk_consultorio_dental_inven FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE nomina
+    ADD CONSTRAINT fk_consultorio_dental_nomina FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente
+    ADD CONSTRAINT fk_consultorio_dental_paciente FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE pedidos
+    ADD CONSTRAINT fk_consultorio_dental_pedidos FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE sala_espera
+    ADD CONSTRAINT fk_consultorio_dental_sala_esp FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE tratamiento
+    ADD CONSTRAINT fk_consultorio_dental_trat FOREIGN KEY ( cve_consul_dental )
+        REFERENCES consultorio_dental ( cve_consul_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE inventario
+    ADD CONSTRAINT fk_deposito_dental_inventario FOREIGN KEY ( cve_deposito_dental )
+        REFERENCES deposito_dental ( cve_deposito_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE pedidos
+    ADD CONSTRAINT fk_deposito_dental_pedidos FOREIGN KEY ( cve_deposito_dental )
+        REFERENCES deposito_dental ( cve_deposito_dental )
+    NOT DEFERRABLE;
+
+ALTER TABLE doctor_pagos
+    ADD CONSTRAINT fk_doctor_doctor_pagos FOREIGN KEY ( cve_doctor )
+        REFERENCES doctor ( cve_doctor )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefono
+    ADD CONSTRAINT fk_doctor_telefono FOREIGN KEY ( cve_doctor )
+        REFERENCES doctor ( cve_doctor )
+    NOT DEFERRABLE;
+
+ALTER TABLE ayudante
+    ADD CONSTRAINT fk_domicilio_ayudante FOREIGN KEY ( cve_domicilio )
+        REFERENCES domicilio ( cve_domicilio )
+    NOT DEFERRABLE;
+
+ALTER TABLE consultorio_dental
+    ADD CONSTRAINT fk_domicilio_consult_dental FOREIGN KEY ( cve_domicilio )
+        REFERENCES domicilio ( cve_domicilio )
+    NOT DEFERRABLE;
+
+ALTER TABLE doctor
+    ADD CONSTRAINT fk_domicilio_doctor FOREIGN KEY ( cve_domicilio )
+        REFERENCES domicilio ( cve_domicilio )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente
+    ADD CONSTRAINT fk_domicilio_paciente FOREIGN KEY ( cve_domicilio )
+        REFERENCES domicilio ( cve_domicilio )
+    NOT DEFERRABLE;
+
+ALTER TABLE recepcionista
+    ADD CONSTRAINT fk_domicilio_recep FOREIGN KEY ( cve_domicilio )
+        REFERENCES domicilio ( cve_domicilio )
+    NOT DEFERRABLE;
+
+ALTER TABLE municipio
+    ADD CONSTRAINT fk_estado_municipio FOREIGN KEY ( cve_estado )
+        REFERENCES estado ( cve_estado )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_estudio
+    ADD CONSTRAINT fk_estudio_paciente_estudio FOREIGN KEY ( cve_estudio )
+        REFERENCES estudio ( cve_estudio )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_tratamiento
+    ADD CONSTRAINT fk_historia_clinica_pacie_trat FOREIGN KEY ( cve_historia_clinica )
+        REFERENCES historia_clinica ( cve_historia_clinica )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_estudio
+    ADD CONSTRAINT fk_historia_clinica_pacien_est FOREIGN KEY ( cve_historia_clinica )
+        REFERENCES historia_clinica ( cve_historia_clinica )
+    NOT DEFERRABLE;
+
+ALTER TABLE inventario
+    ADD CONSTRAINT fk_material_inventario FOREIGN KEY ( cve_material )
+        REFERENCES material ( cve_material )
+    NOT DEFERRABLE;
+
+ALTER TABLE colonia
+    ADD CONSTRAINT fk_municipio_colonia FOREIGN KEY ( cve_municipio )
+        REFERENCES municipio ( cve_municipio )
+    NOT DEFERRABLE;
+
+ALTER TABLE quincena
+    ADD CONSTRAINT fk_nomina_quincena FOREIGN KEY ( cve_nomina )
+        REFERENCES nomina ( cve_nomina )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura
+    ADD CONSTRAINT fk_paciente_factura FOREIGN KEY ( cve_paciente )
+        REFERENCES paciente ( cve_paciente )
+    NOT DEFERRABLE;
+
+ALTER TABLE historia_clinica
+    ADD CONSTRAINT fk_paciente_historia_clinica FOREIGN KEY ( cve_paciente )
+        REFERENCES paciente ( cve_paciente )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_estudio
+    ADD CONSTRAINT fk_paciente_paciente_est FOREIGN KEY ( cve_paciente )
+        REFERENCES paciente ( cve_paciente )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_tratamiento
+    ADD CONSTRAINT fk_paciente_paciente_trat FOREIGN KEY ( cve_paciente )
+        REFERENCES paciente ( cve_paciente )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefono
+    ADD CONSTRAINT fk_paciente_telefono FOREIGN KEY ( cve_paciente )
+        REFERENCES paciente ( cve_paciente )
+    NOT DEFERRABLE;
+
+ALTER TABLE ayudante_pagos
+    ADD CONSTRAINT fk_pagos_ayudante_pagos FOREIGN KEY ( cve_pago )
+        REFERENCES pagos ( cve_pago )
+    NOT DEFERRABLE;
+
+ALTER TABLE deducciones
+    ADD CONSTRAINT fk_pagos_deducciones FOREIGN KEY ( cve_pago )
+        REFERENCES pagos ( cve_pago )
+    NOT DEFERRABLE;
+
+ALTER TABLE doctor_pagos
+    ADD CONSTRAINT fk_pagos_doctor_pagos FOREIGN KEY ( cve_pago )
+        REFERENCES pagos ( cve_pago )
+    NOT DEFERRABLE;
+
+ALTER TABLE percepciones
+    ADD CONSTRAINT fk_pagos_percepciones FOREIGN KEY ( cve_pago )
+        REFERENCES pagos ( cve_pago )
+    NOT DEFERRABLE;
+
+ALTER TABLE recepcionista_pagos
+    ADD CONSTRAINT fk_pagos_recep_pagos FOREIGN KEY ( cve_pago )
+        REFERENCES pagos ( cve_pago )
+    NOT DEFERRABLE;
+
+ALTER TABLE estado
+    ADD CONSTRAINT fk_pais_estado FOREIGN KEY ( cve_pais )
+        REFERENCES pais ( cve_pais )
+    NOT DEFERRABLE;
+
+ALTER TABLE ayudante
+    ADD CONSTRAINT fk_persona_ayudante FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE consultorio_dental
+    ADD CONSTRAINT fk_persona_consultorio_dental FOREIGN KEY ( nombre_res )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE doctor
+    ADD CONSTRAINT fk_persona_doctor FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente
+    ADD CONSTRAINT fk_persona_paciente FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE recepcionista
+    ADD CONSTRAINT fk_persona_recep FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE pagos
+    ADD CONSTRAINT fk_quincena_pagos FOREIGN KEY ( cve_quincena )
+        REFERENCES quincena ( cve_quincena )
+    NOT DEFERRABLE;
+
+ALTER TABLE recepcionista_pagos
+    ADD CONSTRAINT fk_recep_recep_pagos FOREIGN KEY ( cve_recep )
+        REFERENCES recepcionista ( cve_recep )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefono
+    ADD CONSTRAINT fk_recep_telefono FOREIGN KEY ( cve_recep )
+        REFERENCES recepcionista ( cve_recep )
+    NOT DEFERRABLE;
+
+
+ALTER TABLE paciente
+    ADD CONSTRAINT fk_sala_espera_paciente FOREIGN KEY ( cve_sala_espera )
+        REFERENCES sala_espera ( cve_sala_espera )
+    NOT DEFERRABLE;
+
+ALTER TABLE recepcionista
+    ADD CONSTRAINT fk_sala_espera_recep FOREIGN KEY ( cve_sala_espera )
+        REFERENCES sala_espera ( cve_sala_espera )
+    NOT DEFERRABLE;
+
+ALTER TABLE deducciones
+    ADD CONSTRAINT fk_tipo_deduc_deducciones FOREIGN KEY ( cve_tipo_deduc )
+        REFERENCES tipo_deduc ( cve_tipo_deduc )
+    NOT DEFERRABLE;
+
+ALTER TABLE percepciones
+    ADD CONSTRAINT fk_tipo_percep_percepciones FOREIGN KEY ( cve_tipo_percep )
+        REFERENCES tipo_percep ( cve_tipo_percep )
+    NOT DEFERRABLE;
+
+ALTER TABLE paciente_tratamiento
+    ADD CONSTRAINT fk_tratamiento_paciente_trat FOREIGN KEY ( cve_tratamiento )
+        REFERENCES tratamiento ( cve_tratamiento )
+    NOT DEFERRABLE;
+
+ALTER TABLE precios
+    ADD CONSTRAINT fk_tratamiento_precios FOREIGN KEY ( cve_tratamiento )
+        REFERENCES tratamiento ( cve_tratamiento )
+    NOT DEFERRABLE;
+----
+
+    
+-----
+CREATE SEQUENCE almacen_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_almacen_h
+BEFORE INSERT ON almacen_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT almacen_h_SEQ.NEXTVAL INTO :NEW.cve_almacen_h
+FROM DUAL;
+END;
+/
+---------
+
+CREATE SEQUENCE ayudante_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_ayudante_h
+BEFORE INSERT ON ayudante_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT ayudante_h_SEQ.NEXTVAL INTO :NEW.cve_ayudante_h
+FROM DUAL;
+END;
+/
+
+----
+CREATE SEQUENCE colonia_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_colonia_h
+BEFORE INSERT ON colonia_h 
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT colonia_h_SEQ.NEXTVAL INTO :NEW.cve_colonia_h 
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE consultorio_dental_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_consultorio_dental_h
+BEFORE INSERT ON consultorio_dental_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT consultorio_dental_h_SEQ.NEXTVAL INTO :NEW.cve_consul_dental_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE deducciones_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_deducciones_h 
+BEFORE INSERT ON deducciones_h 
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT deducciones_h_SEQ.NEXTVAL INTO :NEW.cve_deducciones_h 
+FROM DUAL;
+END;
+/
+
+
+---
+CREATE SEQUENCE deposito_dental_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_deposito_dental_h 
+BEFORE INSERT ON deposito_dental_h 
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT deposito_dental_h_SEQ.NEXTVAL INTO :NEW.cve_deposito_dental_h 
+FROM DUAL;
+END;
+/
+
+----
+CREATE SEQUENCE doctor_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_doctor_h 
+BEFORE INSERT ON doctor_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT doctor_h_SEQ.NEXTVAL INTO :NEW.cve_doctor_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE domicilio_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_domicilio_h
+BEFORE INSERT ON domicilio_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT domicilio_h_SEQ.NEXTVAL INTO :NEW.cve_domicilio_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE estado_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_estado_h
+BEFORE INSERT ON estado_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT estado_h_SEQ.NEXTVAL INTO :NEW.cve_estado_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE estudio_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_estudio_h
+BEFORE INSERT ON estudio_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT estudio_h_SEQ.NEXTVAL INTO :NEW.cve_estudio_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE factura_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_factura_h
+BEFORE INSERT ON factura_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT factura_h_SEQ.NEXTVAL INTO :NEW.cve_factura_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE historia_clinica_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_historia_clinica_h
+BEFORE INSERT ON historia_clinica_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT historia_clinica_h_SEQ.NEXTVAL INTO :NEW.cve_historia_clinica_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE horario_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_horario_h
+BEFORE INSERT ON horario_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT horario_h_SEQ.NEXTVAL INTO :NEW.cve_horario_h
+FROM DUAL;
+END;
+/
+
+----
+
+CREATE SEQUENCE inventario_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_inventario_h
+BEFORE INSERT ON inventario_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT inventario_h_SEQ.NEXTVAL INTO :NEW.cve_inventario_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE municipio_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_municipio_h
+BEFORE INSERT ON municipio_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT municipio_h_SEQ.NEXTVAL INTO :NEW.cve_municipio_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE nomina_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_nomina_h
+BEFORE INSERT ON nomina_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT nomina_h_SEQ.NEXTVAL INTO :NEW.cve_nomina_h
+FROM DUAL;
+END;
+/
+
+----
+CREATE SEQUENCE paciente_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_paciente_h
+BEFORE INSERT ON paciente_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT paciente_h_SEQ.NEXTVAL INTO :NEW.cve_paciente_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE pagos_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_pagos_h
+BEFORE INSERT ON pagos_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT pagos_h_SEQ.NEXTVAL INTO :NEW.cve_pagos_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE pais_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_pais_h
+BEFORE INSERT ON pais_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT pais_h_SEQ.NEXTVAL INTO :NEW.cve_pais_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE pedidos_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_pedidos_h
+BEFORE INSERT ON pedidos_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT pedidos_h_SEQ.NEXTVAL INTO :NEW.cve_pedidos_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE percepciones_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_percepciones_h
+BEFORE INSERT ON percepciones_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT percepciones_h_SEQ.NEXTVAL INTO :NEW.cve_percepciones_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE persona_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_persona_h 
+BEFORE INSERT ON persona_h 
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT persona_h_SEQ.NEXTVAL INTO :NEW.cve_persona_h 
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE precios_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_precios_h 
+BEFORE INSERT ON precios_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT precios_h_SEQ.NEXTVAL INTO :NEW.cve_precios_h 
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE quincena_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_quincena_h
+BEFORE INSERT ON quincena_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT quincena_h_SEQ.NEXTVAL INTO :NEW.cve_quincena_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE recepcionista_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_recepcionista_h
+BEFORE INSERT ON recepcionista_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT recepcionista_h_SEQ.NEXTVAL INTO :NEW.cve_recep_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE sala_espera_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_sala_espera_h
+BEFORE INSERT ON sala_espera_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT sala_espera_h_SEQ.NEXTVAL INTO :NEW.cve_sala_espera_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE telefono_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_telefono_h
+BEFORE INSERT ON telefono_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT telefono_h_SEQ.NEXTVAL INTO :NEW.cve_telefono_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE tipo_deduc_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_tipo_deduc_h
+BEFORE INSERT ON tipo_deduc_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT tipo_deduc_h_SEQ.NEXTVAL INTO :NEW.cve_tipo_deduc_h
+FROM DUAL;
+END;
+/
+
+---
+CREATE SEQUENCE tipo_percep_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_tipo_percep_h
+BEFORE INSERT ON tipo_percep_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT tipo_percep_h_SEQ.NEXTVAL INTO :NEW.cve_tipo_percep_h
+FROM DUAL;
+END;
+/
+
+----
+CREATE SEQUENCE tratamiento_h_SEQ INCREMENT BY 1 START WITH 1 
+MAXVALUE 99999999999999999
+MINVALUE 1 NOCACHE ORDER;
+
+CREATE OR REPLACE TRIGGER TIB_tratamiento_h
+BEFORE INSERT ON tratamiento_h
+FOR EACH ROW
+
+DECLARE
+
+BEGIN
+ SELECT tratamiento_h_SEQ.NEXTVAL INTO :NEW.cve_tratamiento_h
+FROM DUAL;
+END;
+/
+
+
+--HISTORICAS
+CREATE TABLE almacen_h (
+    cve_almacen_h         NUMBER NOT NULL,
+    cve_almacen         NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+)
+
+ALTER TABLE almacen_h ADD CONSTRAINT pk_almacenv1 PRIMARY KEY ( cve_almacen_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_almacen
+BEFORE INSERT ON almacen
+FOR EACH ROW
+DECLARE
+ltot number;
+luser almacen_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM almacen v 
+ WHERE UPPER(v.cve_almacen) = UPPER(:NEW.cve_almacen);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave almacen' || :NEW.cve_almacen || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into almacen_h(cve_almacen, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_almacen, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_almacen
+BEFORE UPDATE ON almacen
+FOR EACH ROW
+DECLARE
+luser almacen_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_almacen <> :OLD.CVE_almacen OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into almacen_h(CVE_almacen, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_almacen, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_almacen
+BEFORE DELETE ON almacen
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser almacen_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_almacen) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_almacen || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into almacen_h(CVE_almacen, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_almacen, :OLD.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------------
+CREATE TABLE ayudante_h (
+    cve_ayudante_h        NUMBER NOT NULL,
+    cve_ayudante        NUMBER NOT NULL,
+    turno               VARCHAR2(15) NOT NULL,
+    correo              VARCHAR2(100),
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+)
+
+ALTER TABLE ayudante_h ADD CONSTRAINT pk_ayudantev1 PRIMARY KEY ( cve_ayudante_h );
+
+CREATE OR REPLACE TRIGGER TIB_ayudante
+BEFORE INSERT ON ayudante
+FOR EACH ROW
+DECLARE
+ltot number;
+luser ayudante_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM ayudante v 
+ WHERE UPPER(v.turno) = UPPER(:NEW.turno);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El turno' || :NEW.turno || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into ayudante_h(cve_ayudante, turno, correo, cve_persona, cve_domicilio, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_ayudante, :NEW.turno, :NEW.correo, :NEW.cve_persona, :NEW.cve_domicilio, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_ayudante
+BEFORE UPDATE ON ayudante
+FOR EACH ROW
+DECLARE
+luser ayudante_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.turno <> :OLD.turno OR
+ :NEW.correo <> :OLD.correo OR
+ :NEW.cve_persona <> :OLD.cve_persona OR
+ :NEW.cve_domicilio <> :OLD.cve_domicilio OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into ayudante_h(cve_ayudante, turno, correo, cve_persona, cve_domicilio, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_ayudante, :NEW.turno, :NEW.correo, :NEW.cve_persona, :NEW.cve_domicilio, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_ayudante
+BEFORE DELETE ON ayudante
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser ayudante_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_ayudante) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El ayudante '|| :OLD.turno || ' ya tiene turnos.');
+ END IF;
+ select user into luser from dual;
+ insert into ayudante_h(cve_ayudante, turno, correo, cve_persona, cve_domicilio, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_ayudante, :OLD.turno, :OLD.correo, :OLD.cve_persona, :OLD.cve_domicilio, :OLD.cve_consul_dental,luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+------------
+CREATE TABLE colonia_h (
+    cve_colonia_h     NUMBER NOT NULL,
+    cve_colonia     NUMBER NOT NULL,
+    descp VARCHAR2(50) NOT NULL,
+    cve_municipio   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE colonia_h ADD CONSTRAINT pk_coloniav1 PRIMARY KEY ( cve_colonia_h );
+---Insert 
+CREATE OR REPLACE TRIGGER TIB_colonia
+BEFORE INSERT ON colonia
+FOR EACH ROW
+DECLARE
+ltot number;
+luser colonia_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM colonia v 
+ WHERE UPPER(v.descp) = UPPER(:NEW.descp);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp turno' || :NEW.descp || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into colonia_h(cve_colonia, descp, cve_municipio, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_colonia, :NEW.descp, :NEW.cve_municipio,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_colonia
+BEFORE UPDATE ON colonia
+FOR EACH ROW
+DECLARE
+luser colonia_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.descp <> :OLD.descp OR
+ :NEW.cve_municipio <> :OLD.cve_municipio 
+ THEN
+ select user into luser from dual;
+ insert into colonia_h(cve_colonia, descp, cve_municipio,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_colonia, :NEW.descp, :NEW.cve_municipio, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_colonia
+BEFORE DELETE ON colonia
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser colonia_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_colonia) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La colonia'|| :OLD.descp || ' ya tiene una descp.');
+ END IF;
+ select user into luser from dual;
+ insert into colonia_h(cve_colonia, descp, cve_municipio, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_colonia, :OLD.descp, :OLD.cve_municipio,luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+----------
+CREATE TABLE consultorio_dental_h (
+    cve_consul_dental_h   NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    "desc"              VARCHAR2(100) NOT NULL,
+    nombre_res          NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE consultorio_dental_h ADD CONSTRAINT pk_consiltorio_dentalv1 PRIMARY KEY ( cve_consul_dental_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_consultorio_dental
+BEFORE INSERT ON consultorio_dental
+FOR EACH ROW
+DECLARE
+ltot number;
+luser consultorio_dental_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM consultorio_dental v 
+ WHERE UPPER(v."desc") = UPPER(:NEW."desc");
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Descripcion' || :NEW."desc" || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into consultorio_dental_h(cve_consul_dental, "desc", nombre_res, cve_domicilio, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_consul_dental, :NEW."desc", :NEW.nombre_res, :NEW.cve_domicilio, 
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_consultorio_dental
+BEFORE UPDATE ON consultorio_dental
+FOR EACH ROW
+DECLARE
+luser consultorio_dental_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW."desc" <> :OLD."desc" OR
+ :NEW.nombre_res <> :OLD.nombre_res OR
+ :NEW.cve_domicilio <> :OLD.cve_domicilio  
+ THEN
+ select user into luser from dual;
+ insert into consultorio_dental_h(cve_consul_dental, "desc", nombre_res, cve_domicilio,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_consul_dental, :NEW."desc", :NEW.nombre_res, :NEW.cve_domicilio, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_consultorio_dental
+BEFORE DELETE ON consultorio_dental
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser consultorio_dental_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_consul_dental) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El consultorio '|| :OLD."desc" || ' ya tiene descp.');
+ END IF;
+ select user into luser from dual;
+ insert into consultorio_dental_h(cve_consul_dental, "desc", nombre_res, cve_domicilio, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_consul_dental, :OLD."desc", :OLD.nombre_res, :OLD.cve_domicilio,luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+------------
+CREATE TABLE deducciones_h (
+    cve_deducciones_h   NUMBER NOT NULL,
+    cve_deducciones   NUMBER NOT NULL,
+    cve_pago          NUMBER NOT NULL,
+    cve_tipo_deduc    NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE deducciones_h ADD CONSTRAINT pk_deduccionesv1 PRIMARY KEY ( cve_deducciones_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_deducciones
+BEFORE INSERT ON deducciones
+FOR EACH ROW
+DECLARE
+ltot number;
+luser deducciones_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM deducciones v 
+ WHERE UPPER(v.cve_pago ) = UPPER(:NEW.cve_pago );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Paggo' || :NEW.cve_pago  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into deducciones_h(cve_deducciones, cve_pago, cve_tipo_deduc, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_deducciones, :NEW.cve_pago, :NEW.cve_tipo_deduc, 
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_deducciones
+BEFORE UPDATE ON deducciones
+FOR EACH ROW
+DECLARE
+luser deducciones_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.cve_pago <> :OLD.cve_pago OR
+ :NEW.cve_tipo_deduc <> :OLD.cve_tipo_deduc 
+ THEN
+ select user into luser from dual;
+ insert into deducciones_h(cve_deducciones, cve_pago, cve_tipo_deduc,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_deducciones, :NEW.cve_pago, :NEW.cve_tipo_deduc, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_deducciones
+BEFORE DELETE ON deducciones
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser deducciones_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_deducciones) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La deduccion '|| :OLD.cve_pago || ' ya tiene pago.');
+ END IF;
+ select user into luser from dual;
+ insert into deducciones_h(cve_deducciones, cve_pago, cve_tipo_deduc, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_deducciones, :OLD.cve_pago, :OLD.cve_tipo_deduc, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+------
+CREATE TABLE deposito_dental_h (
+    cve_deposito_dental_h NUMBER NOT NULL,
+    cve_deposito_dental NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE deposito_dental_h ADD CONSTRAINT pk_deposito_dentalv1 PRIMARY KEY ( cve_deposito_dental_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_deposito_dental
+BEFORE INSERT ON deposito_dental
+FOR EACH ROW
+DECLARE
+ltot number;
+luser deposito_dental_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM deposito_dental v 
+ WHERE UPPER(v.cve_deposito_dental ) = UPPER(:NEW.cve_deposito_dental );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El deposito' || :NEW.cve_deposito_dental  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into deposito_dental_h(cve_deposito_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_deposito_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_deposito_dental
+BEFORE UPDATE ON deposito_dental
+FOR EACH ROW
+DECLARE
+luser deposito_dental_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.cve_deposito_dental <> :OLD.cve_deposito_dental 
+ THEN
+ select user into luser from dual;
+ insert into deposito_dental_h(cve_deposito_dental, 
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_deposito_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_deposito_dental
+BEFORE DELETE ON deposito_dental
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser deposito_dental_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_deposito_dental) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El depositito '|| :OLD.cve_deposito_dental || ' ya tiene clave.');
+ END IF;
+ select user into luser from dual;
+ insert into deposito_dental_h(cve_deposito_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_deposito_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+------
+CREATE TABLE doctor_h (
+    cve_doctor_h          NUMBER NOT NULL,
+    cve_doctor          NUMBER NOT NULL,
+    correo              VARCHAR2(100) NOT NULL,
+    turno               VARCHAR2(15) NOT NULL,
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE doctor_h ADD CONSTRAINT pk_doctorv1 PRIMARY KEY ( cve_doctor_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_doctor 
+BEFORE INSERT ON doctor 
+FOR EACH ROW
+DECLARE
+ltot number;
+luser doctor_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM doctor v 
+ WHERE UPPER(v.turno ) = UPPER(:NEW.turno );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El turno' || :NEW.turno  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into doctor_h(cve_doctor, correo, turno, cve_persona, cve_domicilio, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_doctor, :NEW.correo, :NEW.turno, :NEW.cve_persona, :NEW.cve_domicilio, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_doctor
+BEFORE UPDATE ON doctor
+FOR EACH ROW
+DECLARE
+luser doctor_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.correo <> :OLD.correo OR
+ :NEW.turno <> :OLD.turno OR
+ :NEW.cve_persona <> :OLD.cve_persona OR
+ :NEW.cve_domicilio <> :OLD.cve_domicilio OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental
+ THEN
+ select user into luser from dual;
+ insert into doctor_h(cve_doctor, correo, turno, cve_persona, cve_domicilio, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_doctor, :NEW.correo, :NEW.turno, :NEW.cve_persona, :NEW.cve_domicilio, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_doctor
+BEFORE DELETE ON doctor
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser doctor_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.turno) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'El turno '|| :OLD.turno || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+ insert into doctor_h(cve_doctor, correo, turno, cve_persona, cve_domicilio, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_doctor, :OLD.correo, :OLD.turno, :OLD.cve_persona, :OLD.cve_domicilio, :OLD.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+-----
+
+CREATE TABLE domicilio_h (
+    cve_domicilio_h   NUMBER NOT NULL,
+    cve_domicilio   NUMBER NOT NULL,
+    descp VARCHAR2(50) NOT NULL,
+    cve_colonia     NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE domicilio_h ADD CONSTRAINT pk_domiciliov1 PRIMARY KEY ( cve_domicilio_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_domicilio 
+BEFORE INSERT ON domicilio 
+FOR EACH ROW
+DECLARE
+ltot number;
+luser domicilio_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM domicilio v 
+ WHERE UPPER(v.descp ) = UPPER(:NEW.descp );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp' || :NEW.descp  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into domicilio_h(cve_domicilio, descp, cve_colonia, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_domicilio, :NEW.descp, :NEW.cve_colonia,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_domicilio
+BEFORE UPDATE ON domicilio
+FOR EACH ROW
+DECLARE
+luser domicilio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.descp <> :OLD.descp OR
+ :NEW.cve_colonia <> :OLD.cve_colonia 
+ THEN
+ select user into luser from dual;
+ insert into domicilio_h(cve_domicilio, descp, cve_colonia,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_domicilio, :NEW.descp, :NEW.cve_colonia, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_domicilio
+BEFORE DELETE ON domicilio
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser domicilio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.descp) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp '|| :OLD.descp || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+ insert into domicilio_h(cve_domicilio, descp, cve_colonia, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_domicilio, :OLD.descp, :OLD.cve_colonia, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+-----
+
+CREATE TABLE estado_h (
+    cve_estado_h   NUMBER NOT NULL,
+    cve_estado   NUMBER NOT NULL,
+    descp VARCHAR2(50) NOT NULL,       
+    cve_pais     NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE estado_h ADD CONSTRAINT pk_estadov1 PRIMARY KEY ( cve_estado_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_estado 
+BEFORE INSERT ON estado 
+FOR EACH ROW
+DECLARE
+ltot number;
+luser estado_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM estado v 
+ WHERE UPPER(v.descp ) = UPPER(:NEW.descp );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp' || :NEW.descp  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into estado_h(cve_estado, descp, cve_pais, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_estado, :NEW.descp, :NEW.cve_pais,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_estado
+BEFORE UPDATE ON estado
+FOR EACH ROW
+DECLARE
+luser estado_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.descp <> :OLD.descp OR
+ :NEW.cve_pais <> :OLD.cve_pais 
+ THEN
+ select user into luser from dual;
+ insert into estado_h(cve_estado, descp, cve_pais,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_estado, :NEW.descp, :NEW.cve_pais, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_estado
+BEFORE DELETE ON estado
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser estado_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.descp) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp '|| :OLD.descp || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+ insert into estado_h(cve_estado, descp, cve_pais, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_estado, :OLD.descp, :OLD.cve_pais, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+------
+CREATE TABLE estudio_h (
+    cve_estudio_h   NUMBER NOT NULL,
+    cve_estudio   NUMBER NOT NULL,
+    "desc"        VARCHAR2(100) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE estudio_h ADD CONSTRAINT pk_estudiov1 PRIMARY KEY ( cve_estudio_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_estudio
+BEFORE INSERT ON estudio 
+FOR EACH ROW
+DECLARE
+ltot number;
+luser estudio_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM estudio v 
+ WHERE UPPER(v."desc" ) = UPPER(:NEW."desc" );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp' || :NEW."desc"  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into estudio_h(cve_estudio, "desc", MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_estudio, :NEW."desc",
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_estudio
+BEFORE UPDATE ON estudio
+FOR EACH ROW
+DECLARE
+luser estudio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW."desc" <> :OLD."desc" 
+ THEN
+ select user into luser from dual;
+ insert into estudio_h(cve_estudio, "desc",
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_estudio, :NEW."desc", luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_estudio
+BEFORE DELETE ON estudio
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser estudio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD."desc") into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp '|| :OLD."desc" || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+ insert into estudio_h(cve_estudio, "desc", MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_estudio, :OLD."desc", luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+-------
+CREATE TABLE factura_h (
+    cve_factura_h         NUMBER NOT NULL,
+    cve_factura         NUMBER NOT NULL,
+    fecha               DATE NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    cve_paciente        NUMBER NOT NULL, 
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE factura_h ADD CONSTRAINT pk_facturav1 PRIMARY KEY ( cve_factura_h );
+
+---insert
+CREATE OR REPLACE TRIGGER TIB_factura
+BEFORE INSERT ON factura 
+FOR EACH ROW
+DECLARE
+ltot number;
+luser factura_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM factura v 
+ WHERE UPPER(v.fecha ) = UPPER(:NEW.fecha );
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+ 
+ 
+ IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La fecha' || :NEW.fecha  || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into factura_h(cve_factura, fecha, cve_consul_dental, cve_paciente, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_factura, :NEW.fecha, :NEW.cve_consul_dental, :NEW.cve_paciente,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_factura
+BEFORE UPDATE ON factura
+FOR EACH ROW
+DECLARE
+luser factura_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.fecha <> :OLD.fecha OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental OR
+ :NEW.cve_paciente <> :OLD.cve_paciente  
+ THEN
+ select user into luser from dual;
+ insert into factura_h(cve_factura, fecha, cve_consul_dental, cve_paciente,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.cve_factura, :NEW.fecha, :NEW.cve_consul_dental, :NEW.cve_paciente, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_factura
+BEFORE DELETE ON factura
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser factura_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.fecha) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La descp '|| :OLD.fecha || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+ insert into factura_h(cve_factura, fecha, cve_consul_dental, cve_paciente, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_factura, :OLD.fecha, :OLD.cve_consul_dental, :OLD.cve_paciente, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+-------
+--------------HISTORIAL-CLINICO---------------------------------
+
+CREATE TABLE historia_clinica_h (
+    cve_historia_clinica_h   NUMBER NOT NULL,
+    cve_historia_clinica   NUMBER NOT NULL,
+    padecimiento           VARCHAR2(100) NOT NULL,
+    fecha                  DATE NOT NULL,
+    cve_paciente           NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE historia_clinica_h ADD CONSTRAINT pk_historia_clinicav1 PRIMARY KEY ( cve_historia_clinica_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_historia_clinica
+BEFORE INSERT ON historia_clinica
+FOR EACH ROW
+DECLARE
+ltot number;
+luser historia_clinica_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM historia_clinica v 
+ WHERE UPPER(v.cve_historia_clinica) = UPPER(:NEW.cve_historia_clinica);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave historia_clinica' || :NEW.cve_historia_clinica || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into historia_clinica_h(cve_historia_clinica, padecimiento, fecha, cve_paciente, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_historia_clinica, :NEW.padecimiento, :NEW.fecha, :NEW.cve_paciente,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_historia_clinica
+BEFORE UPDATE ON historia_clinica
+FOR EACH ROW
+DECLARE
+luser historia_clinica_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_historia_clinica <> :OLD.CVE_historia_clinica OR
+ :NEW.padecimiento <> :OLD.padecimiento OR
+ :NEW.fecha <> :OLD.fecha OR
+ :NEW.cve_paciente <> :OLD.cve_paciente
+ THEN
+ select user into luser from dual;
+ insert into historia_clinica_h(CVE_historia_clinica, padecimiento, fecha, cve_paciente,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_historia_clinica, :NEW.padecimiento, :NEW.fecha, :NEW.cve_paciente, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_historia_clinica
+BEFORE DELETE ON historia_clinica
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser historia_clinica_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_historia_clinica) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_historia_clinica || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into historia_clinica_h(CVE_historia_clinica, padecimiento, fecha, cve_paciente, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_historia_clinica, :OLD.padecimiento, :OLD.fecha, :OLD.cve_paciente, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------HORARIO---------------------------------
+
+CREATE TABLE horario_h (
+    cve_horario_h         NUMBER NOT NULL,
+    cve_horario         NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE horario_h ADD CONSTRAINT pk_horariov1 PRIMARY KEY ( cve_horario_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_horario
+BEFORE INSERT ON horario
+FOR EACH ROW
+DECLARE
+ltot number;
+luser horario_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM horario v 
+ WHERE UPPER(v.cve_horario) = UPPER(:NEW.cve_horario);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave horario' || :NEW.cve_horario || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into horario_h(cve_horario, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_horario, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_horario
+BEFORE UPDATE ON horario
+FOR EACH ROW
+DECLARE
+luser horario_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_horario <> :OLD.CVE_horario OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into horario_h(CVE_horario, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_horario, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_horario
+BEFORE DELETE ON horario
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser horario_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_horario) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_horario || ' ya tiene horarios.');
+ END IF;
+ select user into luser from dual;
+ insert into horario_h(CVE_horario, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_horario, :OLD.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------INVENTARIO---------------------------------
+CREATE TABLE inventario_h (
+    cve_inventario_h        NUMBER NOT NULL,
+    cve_inventario        NUMBER NOT NULL,
+    cantidad              NUMBER NOT NULL,
+    cve_almacen           NUMBER NOT NULL,
+    cve_material          NUMBER NOT NULL,
+    cve_consul_dental     NUMBER NOT NULL,
+    cve_deposito_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE inventario_h ADD CONSTRAINT pk_inventariov1 PRIMARY KEY ( cve_inventario_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_inventario
+BEFORE INSERT ON inventario
+FOR EACH ROW
+DECLARE
+ltot number;
+luser inventario_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM inventario v 
+ WHERE UPPER(v.cve_inventario) = UPPER(:NEW.cve_inventario);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave inventario' || :NEW.cve_inventario || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into inventario_h(cve_inventario, cantidad, cve_almacen, cve_material, cve_consul_dental,cve_deposito_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_inventario, :NEW.cantidad, :NEW.cve_almacen, :NEW.cve_material, :NEW.cve_consul_dental, :NEW.cve_deposito_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_inventario
+BEFORE UPDATE ON inventario
+FOR EACH ROW
+DECLARE
+luser inventario_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_inventario <> :OLD.CVE_inventario OR
+:NEW.cantidad <> :OLD.cantidad OR
+:NEW.CVE_almacen <> :OLD.CVE_almacen OR
+:NEW.CVE_material <> :OLD.CVE_material OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental
+ THEN
+ select user into luser from dual;
+ insert into inventario_h(CVE_inventario, cantidad, cve_almacen, cve_material, cve_consul_dental,cve_deposito_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_inventario, :NEW.cantidad, :NEW.cve_almacen, :NEW.cve_material, :NEW.cve_consul_dental, :NEW.cve_deposito_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_inventario
+BEFORE DELETE ON inventario
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser inventario_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_inventario) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_inventario || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into inventario_h(CVE_inventario, cantidad, cve_almacen, cve_material, cve_consul_dental, cve_deposito_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_inventario, :OLD.cantidad, :OLD.cve_almacen, :OLD.cve_material, :OLD.cve_consul_dental, :OLD.cve_deposito_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------MATERIAL---------------------------------
+CREATE TABLE material_h (
+    cve_material_h   NUMBER NOT NULL,
+    cve_material   NUMBER NOT NULL,
+    "desc"         VARCHAR2(100) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE material_h ADD CONSTRAINT pk_materialv1 PRIMARY KEY ( cve_material_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_material
+BEFORE INSERT ON material
+FOR EACH ROW
+DECLARE
+ltot number;
+luser material_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM material v 
+ WHERE UPPER(v.cve_material) = UPPER(:NEW.cve_material);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave material' || :NEW.cve_material || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into material_h(cve_material, "desc", MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_material, :NEW."desc",
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+
+
+--update 
+create or replace TRIGGER TUB_material
+BEFORE UPDATE ON material
+FOR EACH ROW
+DECLARE
+luser material_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_material <> :OLD.CVE_material OR
+ :NEW."desc" <> :OLD."desc" 
+ THEN
+ select user into luser from dual;
+ insert into material_h(CVE_material, "desc",
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_material, :NEW."desc", luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_material
+BEFORE DELETE ON material
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser material_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_material) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_material || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into material_h(CVE_material, "desc", MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_material, :OLD."desc", luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------MUNICIPIO---------------------------------
+CREATE TABLE municipio_h (
+    cve_municipio_h   NUMBER NOT NULL,
+    cve_municipio   NUMBER NOT NULL,
+    cve_estado      NUMBER NOT NULL,
+    descp              VARCHAR2(100),
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE municipio_h ADD CONSTRAINT pk_municipiov1 PRIMARY KEY ( cve_municipio_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_municipio
+BEFORE INSERT ON municipio
+FOR EACH ROW
+DECLARE
+ltot number;
+luser municipio_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM municipio v 
+ WHERE UPPER(v.cve_municipio) = UPPER(:NEW.cve_municipio);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave municipio' || :NEW.cve_municipio || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into municipio_h(cve_municipio, cve_estado, descp, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_municipio, :NEW.cve_estado, :NEW.descp,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_municipio
+BEFORE UPDATE ON municipio
+FOR EACH ROW
+DECLARE
+luser municipio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_municipio <> :OLD.CVE_municipio OR
+ :NEW.cve_estado <> :OLD.cve_estado OR 
+ :NEW.descp <> :OLD.descp 
+ THEN
+ select user into luser from dual;
+ insert into municipio_h(CVE_municipio, cve_estado, descp,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_municipio, :NEW.cve_estado, :NEW.descp, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_municipio
+BEFORE DELETE ON municipio
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser municipio_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_municipio) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_municipio || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into municipio_h(CVE_municipio, cve_estado, descp, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_municipio, :OLD.cve_estado, :OLD.descp, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------NOMINA---------------------------------
+CREATE TABLE nomina_h (
+    cve_nomina_h          NUMBER NOT NULL,
+    cve_nomina          NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE nomina_h ADD CONSTRAINT pk_nominav1 PRIMARY KEY ( cve_nomina_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_nomina
+BEFORE INSERT ON nomina
+FOR EACH ROW
+DECLARE
+ltot number;
+luser nomina_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM nomina v 
+ WHERE UPPER(v.cve_nomina) = UPPER(:NEW.cve_nomina);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave nomina' || :NEW.cve_nomina || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into nomina_h(cve_nomina, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_nomina, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_nomina
+BEFORE UPDATE ON nomina
+FOR EACH ROW
+DECLARE
+luser nomina_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_nomina <> :OLD.CVE_nomina OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into nomina_h(CVE_nomina, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_nomina, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+create or replace TRIGGER TDB_nomina
+BEFORE DELETE ON nomina
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser nomina_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_nomina) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_nomina || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into nomina_h(CVE_nomina, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_nomina, :OLD.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+
+--------------PACIENTE---------------------------------
+CREATE TABLE paciente_h (
+    cve_paciente_h        NUMBER NOT NULL,
+    cve_paciente        NUMBER NOT NULL,
+    correo              VARCHAR2(100),
+    cve_persona         NUMBER NOT NULL,
+    cve_domicilio       NUMBER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    cve_sala_espera     NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE paciente_h ADD CONSTRAINT pk_pacientev1 PRIMARY KEY ( cve_paciente_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_paciente
+BEFORE INSERT ON paciente
+FOR EACH ROW
+DECLARE
+ltot number;
+luser paciente_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM paciente v 
+ WHERE UPPER(v.cve_paciente) = UPPER(:NEW.cve_paciente);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave paciente' || :NEW.cve_paciente || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into paciente_h(cve_paciente, correo, cve_persona, cve_domicilio ,cve_consul_dental, cve_sala_espera, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_paciente, :NEW.correo, :NEW.cve_persona, :NEW.cve_domicilio ,:NEW.cve_consul_dental, :NEW.cve_sala_espera,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+
+--update 
+create or replace TRIGGER TUB_paciente
+BEFORE UPDATE ON paciente
+FOR EACH ROW
+DECLARE
+luser paciente_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_paciente <> :OLD.CVE_paciente OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental OR
+:NEW.correo <> :OLD.correo OR
+:NEW.cve_persona <> :OLD.cve_persona OR
+:NEW.cve_domicilio  <> :OLD.cve_domicilio  OR
+:NEW.cve_consul_dental <> :OLD.cve_consul_dental OR
+:NEW.cve_sala_espera <> :OLD.cve_sala_espera 
+ THEN
+ select user into luser from dual;
+ insert into paciente_h(CVE_paciente, correo, cve_persona, cve_domicilio ,cve_consul_dental, cve_sala_espera,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_paciente, :NEW.correo, :NEW.cve_persona, :NEW.cve_domicilio ,:NEW.cve_consul_dental, :NEW.cve_sala_espera, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+---delete
+create or replace TRIGGER TDB_paciente
+BEFORE DELETE ON paciente
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser paciente_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_paciente) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_paciente || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into paciente_h(CVE_paciente, correo, cve_persona, cve_domicilio ,cve_consul_dental, cve_sala_espera, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_paciente, :OLD.correo, :OLD.cve_persona, :OLD.cve_domicilio ,:OLD.cve_consul_dental, :OLD.cve_sala_espera, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------PAGOS---------------------------------
+CREATE TABLE pagos_h (
+    cve_pagos_h       NUMBER NOT NULL,
+    cve_pago       NUMBER NOT NULL,
+    monto_total    FLOAT NOT NULL,
+    cve_quincena   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE pagos_h ADD CONSTRAINT pk_pagosv1 PRIMARY KEY ( cve_pagos_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_pagos
+BEFORE INSERT ON pagos
+FOR EACH ROW
+DECLARE
+ltot number;
+luser pagos_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM pagos v 
+ WHERE UPPER(v.cve_pago) = UPPER(:NEW.cve_pago);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave pagos' || :NEW.cve_pago || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into pagos_h(cve_pago,monto_total, cve_quincena, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_pago,:NEW.monto_total, :NEW.cve_quincena,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_pagos
+BEFORE UPDATE ON pagos
+FOR EACH ROW
+DECLARE
+luser pagos_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_pago <> :OLD.CVE_pago OR
+:NEW.monto_total <> :OLD.monto_total OR
+:NEW.cve_quincena <> :OLD.cve_quincena
+ THEN
+ select user into luser from dual;
+ insert into pagos_h(CVE_pago, monto_total, cve_quincena,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_pago, :NEW.monto_total, :NEW.cve_quincena, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TUB_pagos
+BEFORE UPDATE ON pagos
+FOR EACH ROW
+DECLARE
+luser pagos_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_pago <> :OLD.CVE_pago OR
+:NEW.monto_total <> :OLD.monto_total OR
+:NEW.cve_quincena <> :OLD.cve_quincena
+ THEN
+ select user into luser from dual;
+ insert into pagos_h(CVE_pago, monto_total, cve_quincena,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_pago, :NEW.monto_total, :NEW.cve_quincena, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+
+--------------PEDIDOS---------------------------------
+CREATE TABLE pedidos_h (
+    cve_pedidos_h           NUMBER NOT NULL,
+    cve_pedidos           NUMBER NOT NULL,
+    cve_consul_dental     NUMBER NOT NULL,
+    cve_deposito_dental   NUMBER NOT NULL,
+    fecha                 DATE NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE pedidos_h ADD CONSTRAINT pk_pedidosv1 PRIMARY KEY ( cve_pedidos_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_pedidos
+BEFORE INSERT ON pedidos
+FOR EACH ROW
+DECLARE
+ltot number;
+luser pedidos_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM pedidos v 
+ WHERE UPPER(v.cve_pedidos) = UPPER(:NEW.cve_pedidos);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave pedidos' || :NEW.cve_pedidos || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into pedidos_h(cve_pedidos, cve_consul_dental, cve_deposito_dental, fecha, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_pedidos, :NEW.cve_consul_dental, :NEW.cve_deposito_dental, :NEW.fecha,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_pedidos
+BEFORE UPDATE ON pedidos
+FOR EACH ROW
+DECLARE
+luser pedidos_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_pedidos <> :OLD.CVE_pedidos OR
+:NEW.cve_consul_dental  <> :OLD.cve_consul_dental  OR
+:NEW.cve_deposito_dental <> :OLD.cve_deposito_dental OR
+:NEW.fecha <> :OLD.fecha 
+ THEN
+ select user into luser from dual;
+ insert into pedidos_h(CVE_pedidos, cve_consul_dental, cve_deposito_dental, fecha,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_pedidos, :NEW.cve_consul_dental, :NEW.cve_deposito_dental, :NEW.fecha, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_pedidos
+BEFORE DELETE ON pedidos
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser pedidos_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_pedidos) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_pedidos || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into pedidos_h(CVE_pedidos, cve_consul_dental, cve_deposito_dental, fecha, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_pedidos, :OLD.cve_consul_dental, :OLD.cve_deposito_dental, :OLD.fecha, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------PERCEPCIONES---------------------------------
+CREATE TABLE percepciones_h (
+    cve_percepciones_h   NUMBER NOT NULL,
+    cve_percepciones   NUMBER NOT NULL,
+    monto              NUMBER NOT NULL,
+    cve_pago           NUMBER NOT NULL,
+    cve_tipo_percep    NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE percepciones_h ADD CONSTRAINT pk_percepcionesv1 PRIMARY KEY ( cve_percepciones_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_percepciones
+BEFORE INSERT ON percepciones
+FOR EACH ROW
+DECLARE
+ltot number;
+luser percepciones_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM percepciones v 
+ WHERE UPPER(v.cve_percepciones) = UPPER(:NEW.cve_percepciones);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave percepciones' || :NEW.cve_percepciones || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into percepciones_h(cve_percepciones, monto, cve_pago, cve_tipo_percep, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_percepciones, :NEW.monto, :NEW.cve_pago, :NEW.cve_tipo_percep,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_percepciones
+BEFORE UPDATE ON percepciones
+FOR EACH ROW
+DECLARE
+luser percepciones_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_percepciones <> :OLD.CVE_percepciones OR
+ :NEW.monto  <> :OLD.monto  OR
+ :NEW.CVE_pago  <> :OLD.CVE_pago  OR
+ :NEW.CVE_tipo_percep <> :OLD.CVE_tipo_percep
+ THEN
+ select user into luser from dual;
+ insert into percepciones_h(CVE_percepciones, monto, cve_pago, cve_tipo_percep,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_percepciones, :NEW.monto, :NEW.cve_pago, :NEW.cve_tipo_percep, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_percepciones
+BEFORE DELETE ON percepciones
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser percepciones_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_percepciones) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_percepciones || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into percepciones_h(CVE_percepciones, monto, cve_pago, cve_tipo_percep, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_percepciones, :OLD.monto, :OLD.cve_pago, :OLD.cve_tipo_percep, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------PERSONA---------------------------------
+CREATE TABLE persona_h (
+    cve_persona_h   NUMBER NOT NULL,
+    cve_persona   NUMBER NOT NULL,
+    nombre        VARCHAR2(50) NOT NULL,
+    a_paterno     VARCHAR2(50) NOT NULL,
+    a_materno     VARCHAR2(50) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE persona_h ADD CONSTRAINT pk_personav1 PRIMARY KEY ( cve_persona_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_persona
+BEFORE INSERT ON persona
+FOR EACH ROW
+DECLARE
+ltot number;
+luser persona_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM persona v 
+ WHERE UPPER(v.cve_persona) = UPPER(:NEW.cve_persona);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave persona' || :NEW.cve_persona || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into persona_h(cve_persona, nombre, a_paterno, a_materno, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_persona, :NEW.nombre, :NEW.a_paterno, :NEW.a_materno,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_persona
+BEFORE UPDATE ON persona
+FOR EACH ROW
+DECLARE
+luser persona_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_persona <> :OLD.CVE_persona OR
+ :NEW.nombre  <> :OLD.nombre  OR
+:NEW.a_paterno  <> :OLD.a_paterno  OR
+:NEW.a_materno  <> :OLD.a_materno 
+ THEN
+ select user into luser from dual;
+ insert into persona_h(CVE_persona, nombre, a_paterno, a_materno,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_persona, :NEW.nombre, :NEW.a_paterno, :NEW.a_materno, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_persona
+BEFORE DELETE ON persona
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser persona_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_persona) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_persona || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into persona_h(CVE_persona, nombre, a_paterno, a_materno, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_persona, :OLD.nombre, :OLD.a_paterno, :OLD.a_materno, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------PRECIOS---------------------------------
+CREATE TABLE precios_h (
+    cve_precios_h       NUMBER NOT NULL,
+    cve_precios       NUMBER NOT NULL,
+    monto             NUMBER NOT NULL,
+    cve_tratamiento   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE precios_h ADD CONSTRAINT pk_preciosv1 PRIMARY KEY ( cve_precios_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_precios
+BEFORE INSERT ON precios
+FOR EACH ROW
+DECLARE
+ltot number;
+luser precios_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM precios v 
+ WHERE UPPER(v.cve_precios) = UPPER(:NEW.cve_precios);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave precios' || :NEW.cve_precios || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into precios_h(cve_precios, monto, cve_tratamiento, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_precios, :NEW.monto, :NEW.cve_tratamiento,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_precios
+BEFORE UPDATE ON precios
+FOR EACH ROW
+DECLARE
+luser precios_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_precios <> :OLD.CVE_precios OR
+ :NEW.monto    <> :OLD.monto    OR
+:NEW.CVE_tratamiento  <> :OLD.CVE_tratamiento  
+ THEN
+ select user into luser from dual;
+ insert into precios_h(CVE_precios, monto, cve_tratamiento,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_precios, :NEW.monto, :NEW.cve_tratamiento, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_precios
+BEFORE DELETE ON precios
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser precios_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_precios) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'precios'|| :OLD.cve_precios || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into precios_h(CVE_precios, monto, cve_tratamiento, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_precios, :OLD.monto, :OLD.cve_tratamiento, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------QUINCENA---------------------------------
+CREATE TABLE quincena_h (
+    cve_quincena_h   NUMBER NOT NULL,
+    cve_quincena   NUMBER NOT NULL,
+    fecha_ini      DATE NOT NULL,
+    fecha_fin      DATE NOT NULL,
+    cve_nomina     NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE quincena_h ADD CONSTRAINT pk_quincenav1 PRIMARY KEY ( cve_quincena_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_quincena
+BEFORE INSERT ON quincena
+FOR EACH ROW
+DECLARE
+ltot number;
+luser quincena_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM quincena v 
+ WHERE UPPER(v.cve_quincena) = UPPER(:NEW.cve_quincena);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave quincena' || :NEW.cve_quincena || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into quincena_h(cve_quincena, fecha_ini, fecha_fin, cve_nomina, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_quincena, :NEW.fecha_ini, :NEW.fecha_fin, :NEW.cve_nomina,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_quincena
+BEFORE UPDATE ON quincena
+FOR EACH ROW
+DECLARE
+luser quincena_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_quincena <> :OLD.CVE_quincena OR
+  :NEW.fecha_ini  <> :OLD.fecha_ini  OR
+  :NEW.fecha_fin  <> :OLD.fecha_fin  OR
+  :NEW.cve_nomina <> :OLD.cve_nomina 
+ THEN
+ select user into luser from dual;
+ insert into quincena_h(CVE_quincena, fecha_ini, fecha_fin, cve_nomina,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_quincena, :NEW.fecha_ini, :NEW.fecha_fin, :NEW.cve_nomina, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_quincena
+BEFORE DELETE ON quincena
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser quincena_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_quincena) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'quincena'|| :OLD.cve_quincena || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into quincena_h(CVE_quincena, fecha_ini, fecha_fin, cve_nomina, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_quincena, :OLD.fecha_ini, :OLD.fecha_fin, :OLD.cve_nomina, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------RECEPCIONISTA---------------------------------
+CREATE TABLE recepcionista_h (
+    cve_recep_h         NUMBER NOT NULL,
+    cve_recep         NUMBER NOT NULL,
+    turno             VARCHAR2(15) NOT NULL,
+    correo            VARCHAR2(100),
+    cve_persona       NUMBER NOT NULL,
+    cve_domicilio     NUMBER NOT NULL,
+    cve_sala_espera   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE recepcionista_h ADD CONSTRAINT pk_recepcionistav1 PRIMARY KEY ( cve_recep_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_recepcionista
+BEFORE INSERT ON recepcionista
+FOR EACH ROW
+DECLARE
+ltot number;
+luser recepcionista_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM recepcionista v 
+ WHERE UPPER(v.cve_recep) = UPPER(:NEW.cve_recep);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave recep' || :NEW.cve_recep || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into recepcionista_h(cve_recep, turno, correo ,cve_persona,cve_domicilio, cve_sala_espera, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_recep, :NEW.turno, :NEW.correo ,:NEW.cve_persona,:NEW.cve_domicilio, :NEW.cve_sala_espera,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_recepcionista
+BEFORE UPDATE ON recepcionista
+FOR EACH ROW
+DECLARE
+luser recepcionista_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_recep <> :OLD.CVE_recep OR
+ :NEW.turno <> :OLD.turno OR
+ :NEW.correo <> :OLD.correo OR
+ :NEW.cve_persona <> :OLD.cve_persona OR
+ :NEW.cve_domicilio <> :OLD.cve_domicilio OR
+ :NEW.cve_sala_espera <> :OLD.cve_sala_espera
+ THEN
+ select user into luser from dual;
+ insert into recepcionista_h(CVE_recep, turno ,correo ,cve_persona, cve_domicilio,cve_sala_espera,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_recep, :NEW.turno ,:NEW.correo ,:NEW.cve_persona, :NEW.cve_domicilio,:NEW.cve_sala_espera, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_recepcionista
+BEFORE DELETE ON recepcionista
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser recepcionista_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_recep) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'recepcionista '|| :OLD.cve_recep || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into recepcionista_h(CVE_recep, turno ,correo ,cve_persona, cve_domicilio,cve_sala_espera, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_recep, :OLD.turno ,:OLD.correo ,:OLD.cve_persona, :OLD.cve_domicilio, :OLD.cve_sala_espera, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------TELEFONO---------------------------------  
+CREATE TABLE telefono_h (
+    cve_telefono_h        NUMBER NOT NULL,
+    cve_telefono        NUMBER NOT NULL,
+    lada                VARCHAR2(4) NOT NULL,
+    telefono            VARCHAR2(10) NOT NULL,
+    cve_doctor          NUMBER NOT NULL,
+    cve_paciente        NUMBER NOT NULL,
+    cve_ayudante        NUMBER NOT NULL,
+    cve_recep   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE telefono_h ADD CONSTRAINT pk_telefonov1 PRIMARY KEY ( cve_telefono_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_telefono
+BEFORE INSERT ON telefono
+FOR EACH ROW
+DECLARE
+ltot number;
+luser telefono_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM telefono v 
+ WHERE UPPER(v.cve_telefono) = UPPER(:NEW.cve_telefono);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave telefono' || :NEW.cve_telefono || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into telefono_h(cve_telefono, lada, telefono, cve_doctor, cve_paciente, cve_ayudante, cve_recep, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_telefono, :NEW.lada, :NEW.telefono, :NEW.cve_doctor, :NEW.cve_paciente, :NEW.cve_ayudante, :NEW.cve_recep,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+
+--update 
+create or replace TRIGGER TUB_telefono
+BEFORE UPDATE ON telefono
+FOR EACH ROW
+DECLARE
+luser telefono_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_telefono <> :OLD.CVE_telefono OR
+ :NEW.lada <> :OLD.lada OR
+  :NEW.lada <> :OLD.telefono OR
+  :NEW.lada <> :OLD.cve_doctor OR
+  :NEW.lada <> :OLD.cve_paciente OR
+  :NEW.lada <> :OLD.cve_ayudante OR
+  :NEW.lada <> :OLD.cve_recep
+ THEN
+ select user into luser from dual;
+ insert into telefono_h(cve_telefono, lada, telefono, cve_doctor, cve_paciente, cve_ayudante, cve_recep,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_telefono, :NEW.lada, :NEW.telefono, :NEW.cve_doctor, :NEW.cve_paciente, :NEW.cve_ayudante, :NEW.cve_recep, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_telefono
+BEFORE DELETE ON telefono
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser telefono_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_telefono) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'telefono '|| :OLD.cve_telefono || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into telefono_h(cve_telefono, lada, telefono, cve_doctor, cve_paciente, cve_ayudante, cve_recep, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_telefono, :OLD.lada, :OLD.telefono, :OLD.cve_doctor, :OLD.cve_paciente, :OLD.cve_ayudante, :OLD.cve_recep, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+--------------TRATAMIENTO---------------------------------
+CREATE TABLE tratamiento_h (
+    cve_tratamiento_h     NUMBER NOT NULL,
+    cve_tratamiento     NUMBER NOT NULL,
+    tipo                VARCHAR2(100) NOT NULL,
+    fecha               DATE NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tratamiento_h ADD CONSTRAINT pk_tratamientov1 PRIMARY KEY ( cve_tratamiento_h );
+
+--Insert
+CREATE OR REPLACE TRIGGER TIB_tratamiento
+BEFORE INSERT ON tratamiento
+FOR EACH ROW
+DECLARE
+ltot number;
+luser tratamiento_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM tratamiento v 
+ WHERE UPPER(v.cve_tratamiento) = UPPER(:NEW.cve_tratamiento);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave tratamiento' || :NEW.cve_tratamiento || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into tratamiento_h(cve_tratamiento, tipo, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_tratamiento, :NEW.cve_consul_dental, :NEW.tipo,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_tratamiento
+BEFORE UPDATE ON tratamiento
+FOR EACH ROW
+DECLARE
+luser tratamiento_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_tratamiento <> :OLD.CVE_tratamiento OR
+ :NEW.tipo <> :OLD.tipo OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into tratamiento_h(CVE_tratamiento, tipo, cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_tratamiento, :NEW.tipo, :NEW.cve_consul_dental, luser,
+ sysdate, luser, sysdate,'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_tratamiento
+BEFORE DELETE ON tratamiento
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser tratamiento_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_tratamiento) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'tratamiento '|| :OLD.cve_tratamiento || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into tratamiento_h(CVE_tratamiento, cve_consul_dental, tipo, fecha, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_tratamiento, :OLD.cve_consul_dental, :OLD.tipo, :OLD.fecha, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+--------------PAIS---------------------------------
+CREATE TABLE pais_h(
+    cve_pais_h   NUMBER NOT NULL,
+    cve_pais   NUMBER NOT NULL,
+    "desc"     VARCHAR2(100) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+ALTER TABLE pais_h ADD CONSTRAINT pk_paisv1 PRIMARY KEY ( cve_pais_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_pais
+BEFORE INSERT ON pais
+FOR EACH ROW
+DECLARE
+ltot number;
+luser pais_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM pais v 
+ WHERE UPPER(v.cve_pais) = UPPER(:NEW.cve_pais);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave pais' || :NEW.cve_pais || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into pais_h(cve_pais, "desc", MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_pais, :NEW."desc",
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+
+--update 
+create or replace TRIGGER TUB_pais
+BEFORE UPDATE ON pais
+FOR EACH ROW
+DECLARE
+luser pais_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_pais <> :OLD.CVE_pais OR
+ :NEW."desc" <> :OLD."desc"
+ THEN
+ select user into luser from dual;
+ insert into pais_h(CVE_pais, "desc",
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_pais, :NEW."desc", luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_pais
+BEFORE DELETE ON pais
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser pais_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_pais) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_pais || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into pais_h(cve_pais, "desc", MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_pais, :OLD."desc", luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+--------------PAIS---------------------------------
+
+--------------tipo_percepcion------------------
+CREATE TABLE tipo_deduc_h (
+    cve_tipo_deduc_h   NUMBER NOT NULL,
+    cve_tipo_deduc   NUMBER NOT NULL,
+    "desc"           VARCHAR2(100) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tipo_deduc_h ADD CONSTRAINT pk_tipo_deducv1 PRIMARY KEY ( cve_tipo_deduc_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_tipo_deduc
+BEFORE INSERT ON tipo_deduc
+FOR EACH ROW
+DECLARE
+ltot number;
+luser tipo_deduc_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM tipo_deduc v 
+ WHERE UPPER(v.cve_tipo_deduc) = UPPER(:NEW.cve_tipo_deduc);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave tipo_deduc' || :NEW.cve_tipo_deduc || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into tipo_deduc_h(cve_tipo_deduc, "desc", MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_tipo_deduc, :NEW."desc",
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_tipo_deduc
+BEFORE UPDATE ON tipo_deduc
+FOR EACH ROW
+DECLARE
+luser tipo_deduc_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_tipo_deduc <> :OLD.CVE_tipo_deduc OR
+  :NEW."desc" <> :OLD."desc"
+ THEN
+ select user into luser from dual;
+ insert into tipo_deduc_h(CVE_tipo_deduc, "desc",
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_tipo_deduc, :NEW."desc", luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_tipo_deduc
+BEFORE DELETE ON tipo_deduc
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser tipo_deduc_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_tipo_deduc) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_tipo_deduc || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into tipo_deduc_h(CVE_tipo_deduc, "desc", MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_tipo_deduc, :OLD."desc", luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+--------------tipo_percepcion------------------
+CREATE TABLE tipo_percep_h (
+    cve_tipo_percep_h   NUMBER NOT NULL,
+    cve_tipo_percep   NUMBER NOT NULL,
+    "desc"            VARCHAR2(100) NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tipo_percep_h ADD CONSTRAINT pk_tipo_percepv1 PRIMARY KEY ( cve_tipo_percep_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_tipo_percep
+BEFORE INSERT ON tipo_percep
+FOR EACH ROW
+DECLARE
+ltot number;
+luser tipo_percep_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM tipo_percep v 
+ WHERE UPPER(v.cve_tipo_percep) = UPPER(:NEW.cve_tipo_percep);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave tipo_percep' || :NEW.cve_tipo_percep || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into tipo_percep_h(cve_tipo_percep, "desc", MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.CVE_tipo_percep, :NEW."desc",
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+--update 
+create or replace TRIGGER TUB_tipo_percep
+BEFORE UPDATE ON tipo_percep
+FOR EACH ROW
+DECLARE
+luser tipo_percep_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_tipo_percep <> :OLD.CVE_tipo_percep OR
+ :NEW."desc" <> :OLD."desc"
+ THEN
+ select user into luser from dual;
+ insert into tipo_percep_h(CVE_tipo_percep, "desc",
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_tipo_percep, :NEW."desc", luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+--delete
+create or replace TRIGGER TDB_tipo_percep
+BEFORE DELETE ON tipo_percep
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser tipo_percep_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_tipo_percep) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_tipo_percep || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into tipo_percep_h(cve_tipo_percep, "desc", MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.CVE_tipo_percep, :OLD."desc", luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+--------------tipo_percepcion------------------
+
+--------------sala de espera------------------
+CREATE TABLE sala_espera_h (
+    cve_sala_espera_h     NUMBER NOT NULL,
+    cve_sala_espera     NUMBER NOT NULL,
+    turno               INTEGER NOT NULL,
+    cve_consul_dental   NUMBER NOT NULL,
+    creado_por             VARCHAR2(50) NOT NULL,
+    creado_en              DATE NOT NULL,
+    modificado_por         VARCHAR2(50) NOT NULL,
+    modificado_en          DATE NOT NULL,
+    accion                 VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE sala_espera_h ADD CONSTRAINT pk_sala_esperav1 PRIMARY KEY ( cve_sala_espera_h );
+--Insert
+CREATE OR REPLACE TRIGGER TIB_sala_espera
+BEFORE INSERT ON sala_espera
+FOR EACH ROW
+DECLARE
+ltot number;
+luser sala_espera_h.MODIFICADO_POR%TYPE;
+CURSOR cnombre IS
+ SELECT count(1) FROM sala_espera v 
+ WHERE UPPER(v.cve_sala_espera) = UPPER(:NEW.cve_sala_espera);
+BEGIN
+ ltot := 0;
+ OPEN cnombre;
+ FETCH cnombre INTO ltot;
+ CLOSE cnombre;
+
+IF ltot >= 1 THEN
+ RAISE_APPLICATION_ERROR(-20000,'Clave sala_espera' || :NEW.cve_sala_espera || ' ya existe.');
+ END IF;
+ select user into luser from dual;
+insert into sala_espera_h(cve_sala_espera, turno, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+CREADO_POR, CREADO_EN, ACCION) values (:NEW.cve_sala_espera, :NEW.turno, :NEW.cve_consul_dental,
+ luser, sysdate, luser, sysdate, 'INSERT');
+END;
+/
+
+--update 
+create or replace TRIGGER TUB_sala_espera
+BEFORE UPDATE ON sala_espera
+FOR EACH ROW
+DECLARE
+luser sala_espera_h.MODIFICADO_POR%TYPE;
+BEGIN
+ IF :NEW.CVE_sala_espera <> :OLD.CVE_sala_espera OR
+ :NEW.turno <> :OLD.turno OR
+ :NEW.cve_consul_dental <> :OLD.cve_consul_dental 
+ THEN
+ select user into luser from dual;
+ insert into sala_espera_h(CVE_sala_espera, turno ,cve_consul_dental,
+MODIFICADO_POR, MODIFICADO_EN, CREADO_POR, CREADO_EN, ACCION)
+ values (:NEW.CVE_sala_espera, :NEW.turno, :NEW.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'UPDATE');
+ END IF;
+END;
+/
+
+--delete
+create or replace TRIGGER TDB_sala_espera
+BEFORE DELETE ON sala_espera
+FOR EACH ROW
+DECLARE
+ltot number;
+ luser sala_espera_h.MODIFICADO_POR%TYPE;
+BEGIN
+ ltot := 0;
+ SELECT FSUMA_TOTALES(:OLD.cve_sala_espera) into ltot FROM dual;
+IF ltot >= 50 THEN
+ RAISE_APPLICATION_ERROR(-20000,'La clave '|| :OLD.cve_sala_espera || ' ya tiene pedidos.');
+ END IF;
+ select user into luser from dual;
+ insert into sala_espera_h(CVE_sala_espera, turno, cve_consul_dental, MODIFICADO_POR, MODIFICADO_EN,
+ CREADO_POR, CREADO_EN, ACCION)
+ values (:OLD.cve_sala_espera, :OLD.turno, :OLD.cve_consul_dental, luser, sysdate, luser,
+ sysdate, 'BORRADO');
+END;
+/
+
+
+-------INSERT-------
+insert into  pais (cve_pais, "desc") values
+('1','Mexico');
+select * from pais;
+insert into estado (cve_estado, descp, cve_pais) values
+('1','CDMX','1');
+select * from estado; 
+insert into  municipio (cve_municipio, descp, cve_estado) values
+('1','Benito Juarez','1');
+
+insert into  colonia (cve_colonia, descp, cve_municipio) values
+('1','Narvarte', '1');
+
+insert into  domicilio (cve_domicilio, descp, cve_colonia) values
+('1','Concepcion Beistegui','1');
+
+insert into  domicilio (cve_domicilio, descp, cve_colonia) values
+('2','Romero','1');
+
+insert into  persona (cve_persona, nombre, a_paterno, a_materno) values
+('1','Jacobo','Jimenez', 'Rangel');
+
+insert into  persona (cve_persona, nombre, a_paterno, a_materno) values
+('2','Roberto','Migranas', 'Ceja');
+
+insert into  consultorio_dental (cve_consul_dental, "desc", nombre_res, cve_domicilio) values
+('1','Casa de Dental Care','1','1');
+
+insert into  sala_espera (cve_sala_espera, turno, cve_consul_dental) values
+('1','1','1');
+
+insert into  doctor (cve_doctor, correo, turno, cve_persona, cve_domicilio, cve_consul_dental) values
+('1','jjr@lasalle.com','matutino','1','1','1');
+
+insert into  paciente (cve_paciente, cve_persona, cve_domicilio, cve_consul_dental, cve_sala_espera) values
+('1','2','2','1','1');
+COMMIT;
+
+SELECT * FROM DOMICILIO; 
+SELECT * FROM PERSONA;
+SELECT * FROM DOCTOR;
+SELECT * FROM PACIENTE;
+SELECT * FROM CONSULTORIO_DENTAL;
+
+---PROBLEMA 1  
+--1. Desplegar el nombre completo de los pacientes que no se les ha hecho ningún estudio,
+--desplegar el nombre completo del paciente y su correo.
+--(paciente_estudio WHERE paciente_estudio.cve_estudio = estudio.cve_estudio) {nombre,a_paterno,a_materno,correo}
+CREATE VIEW problema_1 AS
+SELECT NOMBRE, A_PATERNO, A_MATERNO, PACIENTE.CORREO FROM PERSONA,PACIENTE
+WHERE PERSONA.CVE_PERSONA IN (SELECT PACIENTE.CVE_PACIENTE FROM PACIENTE
+WHERE NOT EXISTS(SELECT PACIENTE_ESTUDIO.CVE_ESTUDIO FROM PACIENTE_ESTUDIO
+WHERE PACIENTE.CVE_PERSONA = PERSONA.CVE_PERSONA)) GROUP BY NOMBRE, A_PATERNO, A_MATERNO, PACIENTE.CORREO;
+SELECT * FROM problema_1;
+
+
+
+--PROBLEMA 2  
+--- script 2 con vista
+--2. Desplegar el catálogo completo de doctores, desplegando: nombre completo del doctor, correo, turno, dirección completa del doctor. 
+--Ordenado por turno, nombre completo del doctor.
+--(turno, nombre, a_paterno, a_materno) {persona.nombre, persona.a_paterno, persona.a_materno, doctor.correo, doctor.turno, doctor.cve_domicilio}
+CREATE VIEW v_scriptdos as
+select persona.nombre, persona.a_paterno, persona.a_materno, doctor.correo, doctor.turno, doctor.cve_domicilio  from persona, doctor 
+where doctor.cve_persona = persona.cve_persona
+group by persona.nombre, persona.a_paterno, persona.a_materno, doctor.correo, doctor.turno, doctor.cve_domicilio order by turno, nombre, a_paterno, a_materno;
+select * from v_scriptdos;
+
+---PROBLEMA 3 
+---Obtener por consultorio dental, el número de pacientes que se ha atendido y el número doctores que cuenta 
+--(PACIENTE.CVE_PACIENTE WHERE DOCTOR.CVE_DOCTOR = DOCTOR.CVE_CONSUL_DENTAL AND PACIENTE.CVE_PACIENTE = PACIENTE.CVE_CONSUL_DENTAL) {PACIENTE.CVE_PACIENTE, count(*) as CUENTAPACIENTE, DOCTOR.CVE_DOCTOR , count(*) as CUENTAPARTE }
+CREATE VIEW problema3 as 
+SELECT PACIENTE.CVE_PACIENTE, count(*) as CUENTAPACIENTE, DOCTOR.CVE_DOCTOR , count(*) as CUENTAPARTE  FROM PACIENTE, CONSULTORIO_DENTAL, DOCTOR 
+WHERE DOCTOR.CVE_DOCTOR = DOCTOR.CVE_CONSUL_DENTAL AND 
+PACIENTE.CVE_PACIENTE = PACIENTE.CVE_CONSUL_DENTAL GROUP BY PACIENTE.CVE_PACIENTE,  DOCTOR.CVE_DOCTOR;
+SELECT * FROM problema3;
+
+---PROBLEMA 4
+--Desplegar el nombre completo de los pacientes, el número de estudios realizados, ordenado por el que tuvo más estudios al de menos.
+--(PACIENTE.CVE_PACIENTE WHERE persona.cve_persona = paciente.cve_persona and 
+--paciente.cve_paciente = paciente_estudio.cve_paciente) {paciente.cve_paciente, NOMBRE, A_PATERNO, A_MATERNO, }
+create view ejercicio4 as
+select paciente.cve_paciente, NOMBRE, A_PATERNO, A_MATERNO, count(CVE_ESTUDIO) as numero 
+from PACIENTE, PACIENTE_ESTUDIO, PERSONA 
+where  persona.cve_persona = paciente.cve_persona and 
+paciente.cve_paciente = paciente_estudio.cve_paciente group by paciente.cve_paciente, NOMBRE, A_PATERNO, A_MATERNO order by numero;
+SELECT * FROM ejercicio4;
+
+---PROBLEMA 5
+---Obtener por doctor, el nombre completo del doctor y el total de pagos que ha recibido.
+--(DOCTOR, PERSONA, DOCTOR_PAGOS, PAGOS) {DOCTOR.CVE_DOCTOR, NOMBRE, A_PATERNO, A_MATERNO, SUM(PAGOS.MONTO_TOTAL) AS SUMA }
+create view EJERCICIO_5 AS
+SELECT DOCTOR.CVE_DOCTOR, NOMBRE, A_PATERNO, A_MATERNO, SUM(PAGOS.MONTO_TOTAL) AS SUMA
+FROM DOCTOR, PERSONA, DOCTOR_PAGOS, PAGOS WHERE DOCTOR.CVE_PERSONA = PERSONA.CVE_PERSONA
+GROUP BY DOCTOR.CVE_DOCTOR, NOMBRE, A_PATERNO, A_MATERNO ORDER BY DOCTOR.CVE_DOCTOR, NOMBRE, A_PATERNO, A_MATERNO ;
+select * from EJERCICIO_5;
